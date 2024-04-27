@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_food_delivery/home/food_page_body.dart';
+import 'package:flutter_food_delivery/pages/home/food_page_body.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
 import 'package:flutter_food_delivery/utils/dimensions.dart';
 import 'package:flutter_food_delivery/widgets/big_text.dart';
