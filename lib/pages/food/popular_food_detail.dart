@@ -118,7 +118,7 @@ class PopularFoodDetail extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(
                 vertical: Dimensions.height20,
-                horizontal: Dimensions.width30,
+                horizontal: Dimensions.height20,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
@@ -147,7 +147,7 @@ class PopularFoodDetail extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(
                 vertical: Dimensions.height20,
-                horizontal: Dimensions.width30,
+                horizontal: Dimensions.height20,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
