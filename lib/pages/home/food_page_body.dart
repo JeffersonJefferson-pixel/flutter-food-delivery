@@ -1,9 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_food_delivery/controllers/popular_food_controller.dart';
 import 'package:flutter_food_delivery/controllers/recommended_food_controller.dart';
 import 'package:flutter_food_delivery/models/food_model.dart';
+import 'package:flutter_food_delivery/routes/route_helper.dart';
 import 'package:flutter_food_delivery/utils/app_constants.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
 import 'package:flutter_food_delivery/utils/dimensions.dart';
@@ -53,8 +53,13 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     height: Dimensions.pageView,
                     child: PageView.builder(
                       itemBuilder: (context, index) {
-                        return _buildPageItem(index,
-                            popularFoodController.popularFoodList[index]);
+                        FoodModel food =
+                            popularFoodController.popularFoodList[index];
+                        return GestureDetector(
+                          onTap: () =>
+                              Get.toNamed(RouteHelper.getPopularFood(index)),
+                          child: _buildPageItem(index, food),
+                        );
                       },
                       itemCount: popularFoodController.popularFoodList.length,
                       controller: pageController,
@@ -127,7 +132,12 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                       FoodModel food =
                           recommendedFoodController.recommendedFoodList[index];
 
-                      return _buildRecommendedFoodItem(food);
+                      return GestureDetector(
+                        onTap: () => Get.toNamed(
+                          RouteHelper.getRecommendedFood(index),
+                        ),
+                        child: _buildRecommendedFoodItem(food),
+                      );
                     },
                   )
                 : CircularProgressIndicator(

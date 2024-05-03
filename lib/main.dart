@@ -4,6 +4,7 @@ import 'package:flutter_food_delivery/controllers/recommended_food_controller.da
 import 'package:flutter_food_delivery/pages/food/popular_food_detail.dart';
 import 'package:flutter_food_delivery/pages/food/recommended_food_detail.dart';
 import 'package:flutter_food_delivery/pages/home/main_load_page.dart';
+import 'package:flutter_food_delivery/routes/route_helper.dart';
 import 'package:get/get.dart';
 import 'package:flutter_food_delivery/helper/dependencies.dart' as dep;
 
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: MainFoodPage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
     );
   }
 }

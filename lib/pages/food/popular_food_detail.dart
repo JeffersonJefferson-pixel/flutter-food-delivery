@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_food_delivery/controllers/popular_food_controller.dart';
+import 'package:flutter_food_delivery/models/food_model.dart';
+import 'package:flutter_food_delivery/pages/home/main_load_page.dart';
+import 'package:flutter_food_delivery/routes/route_helper.dart';
+import 'package:flutter_food_delivery/utils/app_constants.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
 import 'package:flutter_food_delivery/utils/dimensions.dart';
 import 'package:flutter_food_delivery/widgets/app_column.dart';
@@ -9,12 +14,16 @@ import 'package:flutter_food_delivery/widgets/big_text.dart';
 import 'package:flutter_food_delivery/widgets/expandable_text.dart';
 import 'package:flutter_food_delivery/widgets/icon_and_text.dart';
 import 'package:flutter_food_delivery/widgets/small_text.dart';
+import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({super.key});
+  final int index;
+  const PopularFoodDetail({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    FoodModel food = Get.find<PopularFoodController>().popularFoodList[index];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -29,8 +38,8 @@ class PopularFoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    "assets/image/food0.png",
+                  image: NetworkImage(
+                    '${AppConstants.BASE_URL}${AppConstants.UPLOAD_URL}/${food.img}',
                   ),
                 ),
               ),
@@ -44,8 +53,13 @@ class PopularFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(
-                  icon: Icons.arrow_back_ios,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RouteHelper.getInitial());
+                  },
+                  child: AppIcon(
+                    icon: Icons.arrow_back_ios,
+                  ),
                 ),
                 AppIcon(
                   icon: Icons.shopping_cart_outlined,
@@ -75,7 +89,7 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppColumn(text: "Chinese Side"),
+                  AppColumn(text: food.name!),
                   SizedBox(
                     height: Dimensions.height20,
                   ),
@@ -85,9 +99,7 @@ class PopularFoodDetail extends StatelessWidget {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: ExpandableText(
-                          text:
-                              "Fugiat adipisicing ullamco ut quis ad voluptate duis consectetur ullamco. Laborum deserunt adipisicing nostrud deserunt cillum exercitation aute sit ea est pariatur id. Ut consectetur aute voluptate Lorem occaecat laboris cupidatat. Occaecat dolore consectetur excepteur magna pariatur anim occaecat do deserunt in ad duis. Cillum non nostrud ipsum sit incididunt quis occaecat consectetur commodo duis. Labore eiusmod sint Lorem minim duis consectetur do minim amet elit laboris excepteur. Deserunt labore proident ea aliqua aliqua deserunt adipisicing ex laboris ipsum velit. Duis nostrud laborum laborum eu amet veniam nulla eiusmod qui Lorem voluptate minim cupidatat veniam. Labore eiusmod laboris ut magna exercitation veniam eu occaecat esse. Cupidatat deserunt irure veniam officia pariatur aute Lorem amet. Consequat non id eiusmod elit fugiat dolor ex ea commodo enim amet id nulla. Eu dolore cillum exercitation sunt cillum laboris reprehenderit pariatur fugiat nisi nisi minim. Labore excepteur sit deserunt cupidatat Lorem minim do cillum laboris enim labore."),
+                      child: ExpandableText(text: food.description!),
                     ),
                   ),
                   SizedBox(
@@ -154,7 +166,7 @@ class PopularFoodDetail extends StatelessWidget {
                 color: AppColors.mainColor,
               ),
               child: BigText(
-                text: "\$10 | Add to cart",
+                text: "\$${food.price} | Add to cart",
                 color: Colors.white,
               ),
             )
