@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_food_delivery/controllers/cart_controller.dart';
 import 'package:flutter_food_delivery/controllers/popular_food_controller.dart';
 import 'package:flutter_food_delivery/models/food_model.dart';
-import 'package:flutter_food_delivery/pages/home/main_load_page.dart';
 import 'package:flutter_food_delivery/routes/route_helper.dart';
 import 'package:flutter_food_delivery/utils/app_constants.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
@@ -12,8 +10,6 @@ import 'package:flutter_food_delivery/widgets/app_column.dart';
 import 'package:flutter_food_delivery/widgets/app_icon.dart';
 import 'package:flutter_food_delivery/widgets/big_text.dart';
 import 'package:flutter_food_delivery/widgets/expandable_text.dart';
-import 'package:flutter_food_delivery/widgets/icon_and_text.dart';
-import 'package:flutter_food_delivery/widgets/small_text.dart';
 import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
@@ -22,7 +18,10 @@ class PopularFoodDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FoodModel food = Get.find<PopularFoodController>().popularFoodList[index];
+    PopularFoodController popularFoodController =
+        Get.find<PopularFoodController>();
+    FoodModel food = popularFoodController.popularFoodList[index];
+    popularFoodController.initProduct(food, Get.find<CartController>());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -111,68 +110,80 @@ class PopularFoodDetail extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: Dimensions.bottomHeightBar,
-        padding: EdgeInsets.symmetric(
-          vertical: Dimensions.height30,
-          horizontal: Dimensions.width20,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(Dimensions.radius20 * 2),
-            topRight: Radius.circular(Dimensions.radius20 * 2),
+      bottomNavigationBar:
+          GetBuilder<PopularFoodController>(builder: (popularFoodController) {
+        return Container(
+          height: Dimensions.bottomHeightBar,
+          padding: EdgeInsets.symmetric(
+            vertical: Dimensions.height30,
+            horizontal: Dimensions.width20,
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: Dimensions.height20,
-                horizontal: Dimensions.height20,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: Colors.white,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.remove,
-                    color: AppColors.signColor,
-                  ),
-                  SizedBox(
-                    width: Dimensions.width10 / 2,
-                  ),
-                  BigText(text: "0"),
-                  SizedBox(
-                    width: Dimensions.width10 / 2,
-                  ),
-                  Icon(
-                    Icons.add,
-                    color: AppColors.signColor,
-                  )
-                ],
-              ),
+          decoration: BoxDecoration(
+            color: AppColors.buttonBackgroundColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(Dimensions.radius20 * 2),
+              topRight: Radius.circular(Dimensions.radius20 * 2),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                vertical: Dimensions.height20,
-                horizontal: Dimensions.height20,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: Dimensions.height20,
+                  horizontal: Dimensions.height20,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => popularFoodController.setQuantity(false),
+                      child: Icon(
+                        Icons.remove,
+                        color: AppColors.signColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: Dimensions.width10 / 2,
+                    ),
+                    BigText(text: popularFoodController.inCartItems.toString()),
+                    SizedBox(
+                      width: Dimensions.width10 / 2,
+                    ),
+                    GestureDetector(
+                      onTap: () => popularFoodController.setQuantity(true),
+                      child: Icon(
+                        Icons.add,
+                        color: AppColors.signColor,
+                      ),
+                    )
+                  ],
+                ),
               ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: AppColors.mainColor,
-              ),
-              child: BigText(
-                text: "\$${food.price} | Add to cart",
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-      ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: Dimensions.height20,
+                  horizontal: Dimensions.height20,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: AppColors.mainColor,
+                ),
+                child: GestureDetector(
+                  onTap: () => popularFoodController.addItem(food),
+                  child: BigText(
+                    text: "\$${food.price} | Add to cart",
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
