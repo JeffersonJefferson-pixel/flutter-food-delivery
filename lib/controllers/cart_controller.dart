@@ -14,11 +14,17 @@ class CartController extends GetxController {
 
   void addItem(FoodModel food, int quantity) {
     if (_items.containsKey(food.id)) {
+      int totalQuantity = 0;
       _items.update(food.id!, (value) {
-        value.quantity = value.quantity! + quantity;
+        totalQuantity = value.quantity! + quantity;
+        value.quantity = totalQuantity;
 
         return value;
       });
+
+      if (totalQuantity <= 0) {
+        _items.remove(food.id);
+      }
     } else {
       if (quantity > 0) {
         _items.putIfAbsent(
@@ -56,4 +62,7 @@ class CartController extends GetxController {
     }
     return 0;
   }
+
+  int get totalQuantity =>
+      _items.values.fold(0, (sum, item) => sum + item.quantity!);
 }

@@ -60,8 +60,39 @@ class PopularFoodDetail extends StatelessWidget {
                     icon: Icons.arrow_back_ios,
                   ),
                 ),
-                AppIcon(
-                  icon: Icons.shopping_cart_outlined,
+                GetBuilder<PopularFoodController>(
+                  builder: (controller) {
+                    return Stack(
+                      children: [
+                        AppIcon(
+                          icon: Icons.shopping_cart_outlined,
+                        ),
+                        controller.totalQuantity >= 1
+                            ? Positioned(
+                                right: 0,
+                                top: 0,
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  size: 20,
+                                  iconColor: Colors.transparent,
+                                  backgroundColor: AppColors.mainColor,
+                                ),
+                              )
+                            : Container(),
+                        controller.totalQuantity >= 1
+                            ? Positioned(
+                                right: 3,
+                                top: 3,
+                                child: BigText(
+                                  text: controller.totalQuantity.toString(),
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    );
+                  },
                 )
               ],
             ),
@@ -137,6 +168,7 @@ class PopularFoodDetail extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   color: Colors.white,
                 ),
+                // increase/decrease quantity
                 child: Row(
                   children: [
                     GestureDetector(
@@ -163,23 +195,24 @@ class PopularFoodDetail extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.height20,
-                  horizontal: Dimensions.height20,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  color: AppColors.mainColor,
-                ),
-                child: GestureDetector(
-                  onTap: () => popularFoodController.addItem(food),
+              // add to cart
+              GestureDetector(
+                onTap: () => popularFoodController.addItem(food),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: Dimensions.height20,
+                    horizontal: Dimensions.height20,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: AppColors.mainColor,
+                  ),
                   child: BigText(
                     text: "\$${food.price} | Add to cart",
                     color: Colors.white,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
