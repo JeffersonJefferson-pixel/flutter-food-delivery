@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_food_delivery/controllers/cart_controller.dart';
 import 'package:flutter_food_delivery/controllers/popular_food_controller.dart';
 import 'package:flutter_food_delivery/controllers/recommended_food_controller.dart';
 import 'package:flutter_food_delivery/models/food_model.dart';
+import 'package:flutter_food_delivery/pages/cart/cart_page.dart';
 import 'package:flutter_food_delivery/routes/route_helper.dart';
 import 'package:flutter_food_delivery/utils/app_constants.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
@@ -48,8 +47,13 @@ class RecommendedFoodDetail extends StatelessWidget {
                   builder: (controller) {
                     return Stack(
                       children: [
-                        AppIcon(
-                          icon: Icons.shopping_cart_outlined,
+                        GestureDetector(
+                          onTap: () => Get.to(
+                            () => CartPage(),
+                          ),
+                          child: AppIcon(
+                            icon: Icons.shopping_cart_outlined,
+                          ),
                         ),
                         controller.totalQuantity >= 1
                             ? Positioned(
