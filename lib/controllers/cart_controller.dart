@@ -30,13 +30,15 @@ class CartController extends GetxController {
         _items.putIfAbsent(
           food.id!,
           () => CartModel(
-              id: food.id,
-              name: food.name,
-              price: food.price,
-              img: food.img,
-              quantity: quantity,
-              isExist: true,
-              time: DateTime.now().toString()),
+            id: food.id,
+            name: food.name,
+            price: food.price,
+            img: food.img,
+            quantity: quantity,
+            isExist: true,
+            time: DateTime.now().toString(),
+            food: food,
+          ),
         );
       } else {
         Get.snackbar(
@@ -47,6 +49,8 @@ class CartController extends GetxController {
         );
       }
     }
+
+    update();
   }
 
   bool existInCart(FoodModel food) {

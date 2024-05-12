@@ -56,8 +56,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                         FoodModel food =
                             popularFoodController.popularFoodList[index];
                         return GestureDetector(
-                          onTap: () =>
-                              Get.toNamed(RouteHelper.getPopularFood(index)),
+                          onTap: () => Get.toNamed(
+                            RouteHelper.getPopularFood(index, "home-page"),
+                          ),
                           child: _buildPageItem(index, food),
                         );
                       },
@@ -134,7 +135,10 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
                       return GestureDetector(
                         onTap: () => Get.toNamed(
-                          RouteHelper.getRecommendedFood(index),
+                          RouteHelper.getRecommendedFood(
+                            index,
+                            "home-page",
+                          ),
                         ),
                         child: _buildRecommendedFoodItem(food),
                       );

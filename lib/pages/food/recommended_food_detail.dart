@@ -3,7 +3,6 @@ import 'package:flutter_food_delivery/controllers/cart_controller.dart';
 import 'package:flutter_food_delivery/controllers/popular_food_controller.dart';
 import 'package:flutter_food_delivery/controllers/recommended_food_controller.dart';
 import 'package:flutter_food_delivery/models/food_model.dart';
-import 'package:flutter_food_delivery/pages/cart/cart_page.dart';
 import 'package:flutter_food_delivery/routes/route_helper.dart';
 import 'package:flutter_food_delivery/utils/app_constants.dart';
 import 'package:flutter_food_delivery/utils/colors.dart';
@@ -15,7 +14,12 @@ import 'package:get/get.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
   final int index;
-  const RecommendedFoodDetail({super.key, required this.index});
+  final String page;
+  const RecommendedFoodDetail({
+    super.key,
+    required this.index,
+    required this.page,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,9 @@ class RecommendedFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: () => Get.toNamed(RouteHelper.getInitial()),
+                  onTap: () => page == "cart-page"
+                      ? Get.toNamed(RouteHelper.cartPage)
+                      : Get.toNamed(RouteHelper.getInitial()),
                   child: const AppIcon(
                     icon: Icons.clear,
                   ),
@@ -45,40 +51,38 @@ class RecommendedFoodDetail extends StatelessWidget {
                 // shopping cart
                 GetBuilder<PopularFoodController>(
                   builder: (controller) {
-                    return Stack(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.to(
-                            () => CartPage(),
-                          ),
-                          child: AppIcon(
+                    return GestureDetector(
+                      onTap: () => Get.toNamed(RouteHelper.cartPage),
+                      child: Stack(
+                        children: [
+                          AppIcon(
                             icon: Icons.shopping_cart_outlined,
                           ),
-                        ),
-                        controller.totalQuantity >= 1
-                            ? Positioned(
-                                right: 0,
-                                top: 0,
-                                child: AppIcon(
-                                  icon: Icons.circle,
-                                  size: 20,
-                                  iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.mainColor,
-                                ),
-                              )
-                            : Container(),
-                        controller.totalQuantity >= 1
-                            ? Positioned(
-                                right: 3,
-                                top: 3,
-                                child: BigText(
-                                  text: controller.totalQuantity.toString(),
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Container(),
-                      ],
+                          controller.totalQuantity >= 1
+                              ? Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: AppIcon(
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.mainColor,
+                                  ),
+                                )
+                              : Container(),
+                          controller.totalQuantity >= 1
+                              ? Positioned(
+                                  right: 3,
+                                  top: 3,
+                                  child: BigText(
+                                    text: controller.totalQuantity.toString(),
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     );
                   },
                 )

@@ -16,7 +16,12 @@ import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int index;
-  const PopularFoodDetail({super.key, required this.index});
+  final String page;
+  const PopularFoodDetail({
+    super.key,
+    required this.index,
+    required this.page,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,11 @@ class PopularFoodDetail extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(RouteHelper.getInitial());
+                    if (page == "cart-page") {
+                      Get.toNamed(RouteHelper.cartPage);
+                    } else {
+                      Get.toNamed(RouteHelper.getInitial());
+                    }
                   },
                   child: AppIcon(
                     icon: Icons.arrow_back_ios,
@@ -64,40 +73,38 @@ class PopularFoodDetail extends StatelessWidget {
                 ),
                 GetBuilder<PopularFoodController>(
                   builder: (controller) {
-                    return Stack(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.to(
-                            () => CartPage(),
-                          ),
-                          child: AppIcon(
+                    return GestureDetector(
+                      onTap: () => Get.toNamed(RouteHelper.cartPage),
+                      child: Stack(
+                        children: [
+                          const AppIcon(
                             icon: Icons.shopping_cart_outlined,
                           ),
-                        ),
-                        controller.totalQuantity >= 1
-                            ? Positioned(
-                                right: 0,
-                                top: 0,
-                                child: AppIcon(
-                                  icon: Icons.circle,
-                                  size: 20,
-                                  iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.mainColor,
-                                ),
-                              )
-                            : Container(),
-                        controller.totalQuantity >= 1
-                            ? Positioned(
-                                right: 3,
-                                top: 3,
-                                child: BigText(
-                                  text: controller.totalQuantity.toString(),
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : Container(),
-                      ],
+                          controller.totalQuantity >= 1
+                              ? Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: AppIcon(
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.mainColor,
+                                  ),
+                                )
+                              : Container(),
+                          controller.totalQuantity >= 1
+                              ? Positioned(
+                                  right: 3,
+                                  top: 3,
+                                  child: BigText(
+                                    text: controller.totalQuantity.toString(),
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     );
                   },
                 )
