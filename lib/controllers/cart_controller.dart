@@ -71,4 +71,7 @@ class CartController extends GetxController {
       _items.values.fold(0, (sum, item) => sum + item.quantity!);
 
   List<CartModel> get carts => _items.values.toList();
+
+  int get totalPrice => _items.values
+      .fold(0, (sum, item) => sum + (item.price! * item.quantity!));
 }
