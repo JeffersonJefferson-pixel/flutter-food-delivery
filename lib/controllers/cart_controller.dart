@@ -9,6 +9,7 @@ class CartController extends GetxController {
   final CartRepo cartRepo;
   Map<int, CartModel> _items = {};
   Map<int, CartModel> get items => _items;
+  List<CartModel> storageCarts = [];
 
   CartController({required this.cartRepo});
 
@@ -50,6 +51,7 @@ class CartController extends GetxController {
       }
     }
 
+    cartRepo.addToCarts(carts);
     update();
   }
 
@@ -74,4 +76,17 @@ class CartController extends GetxController {
 
   int get totalPrice => _items.values
       .fold(0, (sum, item) => sum + (item.price! * item.quantity!));
+
+  List<CartModel> getCartData() {
+    setStorageCart = cartRepo.getCarts();
+
+    return storageCarts;
+  }
+
+  set setStorageCart(List<CartModel> carts) {
+    storageCarts = carts;
+
+    storageCarts
+        .forEach((cart) => _items.putIfAbsent(cart.food!.id!, () => cart));
+  }
 }
