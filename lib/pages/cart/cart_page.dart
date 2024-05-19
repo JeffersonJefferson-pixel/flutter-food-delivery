@@ -128,7 +128,7 @@ class CartPage extends StatelessWidget {
                 ),
                 // checkout
                 GestureDetector(
-                  // onTap: () => popularFoodController.addItem(food),
+                  onTap: () => cartController.addToHistory(),
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       vertical: Dimensions.height20,

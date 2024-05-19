@@ -9,4 +9,5 @@ class AppConstants {
 
   static const String TOKEN = "abc";
   static const String CARTS = "carts";
+  static const String CART_HISTORY_LIST = "cart-history-list";
 }

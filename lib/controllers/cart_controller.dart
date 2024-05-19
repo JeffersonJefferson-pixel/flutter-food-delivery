@@ -89,4 +89,18 @@ class CartController extends GetxController {
     storageCarts
         .forEach((cart) => _items.putIfAbsent(cart.food!.id!, () => cart));
   }
+
+  void addToHistory() {
+    cartRepo.addToCartHistoryList();
+    clear();
+  }
+
+  void clear() {
+    _items = {};
+    update();
+  }
+
+  List<CartModel> getCartHistoryList() {
+    return cartRepo.getCartHistoryList();
+  }
 }
